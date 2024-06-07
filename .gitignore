@@ -1,0 +1,16 @@
+typechain-types/
+node_modules/
+artifacts/
+typechain/
+coverage/
+build/
+cache/
+.temp/
+
+package-lock.json
+yarn-error.log
+coverage.json
+yarn.lock
+
+.Ds_Store
+.env

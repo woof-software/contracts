@@ -65,14 +65,13 @@
     This bridge contract assumes there will be 20-30 validators on the L1, so signature sets fit in a single tx.
 */
 
-pragma solidity ^0.8.9;
+pragma solidity ^0.8.20;
 
-import "@openzeppelin/contracts/security/Pausable.sol";
-import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
+import "@openzeppelin/contracts/utils/Pausable.sol";
+import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
-import "@openzeppelin/contracts/token/ERC20/extensions/draft-ERC20Permit.sol";
-import "@arbitrum/nitro-contracts/src/precompiles/ArbSys.sol";
+import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Permit.sol";
 import "./Signature.sol";
 
 struct ValidatorSet {
@@ -124,6 +123,7 @@ struct DepositWithPermit {
 }
 
 contract Bridge2 is Pausable, ReentrancyGuard {
+
   using SafeERC20 for ERC20Permit;
   ERC20Permit public usdcToken;
 
@@ -388,10 +388,7 @@ contract Bridge2 is Pausable, ReentrancyGuard {
   }
 
   function getCurBlockNumber() private view returns (uint64) {
-    if (block.chainid == 1337) {
-      return uint64(block.number);
-    }
-    return uint64(ArbSys(address(100)).arbBlockNumber());
+    return uint64(block.number);
   }
 
   // Returns 0 if no error
